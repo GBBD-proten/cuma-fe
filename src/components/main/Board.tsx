@@ -1,5 +1,8 @@
+"use client";
+
 import SeparateLine from "../common/SeparateLine"
 import comminityData from "../SearchList/data"
+import { motion } from "motion/react"
 
 type BoardProps = {
     title: string;
@@ -11,7 +14,18 @@ const Board = ({ title, commuity }: BoardProps) => {
     const board = comminityData.filter((item) => item.community === commuity).slice(0, 10);
 
     return (
-        <div className="bg-slate-200 p-6 rounded-md shadow-md">
+        <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{
+                y: [100, -10, 0], // 키프레임 애니메이션
+                opacity: [0, 0.5, 1],
+            }}
+            transition={{
+                duration: 0.7, // 전체 애니메이션 지속 시간
+                ease: "easeOut", // 애니메이션 가속 방식
+            }}
+            className="bg-slate-200 p-6 rounded-md shadow-md"
+        >
             <header className="mb-4">
                 <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
             </header>
@@ -39,7 +53,7 @@ const Board = ({ title, commuity }: BoardProps) => {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </motion.div>
     )
 }
 
