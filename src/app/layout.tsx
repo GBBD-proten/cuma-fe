@@ -1,5 +1,6 @@
 import Header from "@/components/common/Header";
 import "./globals.css";
+import { MSWComponent } from "@/components/MSWComponent";
 
 export default function RootLayout({
   children,
@@ -9,8 +10,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <MSWComponent>
+          <Header />
+          {children}
+        </MSWComponent>
       </body>
     </html>
   );
