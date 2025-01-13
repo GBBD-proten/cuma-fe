@@ -1,11 +1,11 @@
 import SearchBar from "@/components/common/SearchBar";
-import SearchCardList from "@/components/SearchList/SearchCardList";
+import SearchBoard from "@/components/SearchList/SearchBoard";
 
 export default function Home() {
   return (
     <article>
       <SearchBar />
-      <SearchCardList />
+      <SearchBoard title="최신글" />
     </article>
   );
 }

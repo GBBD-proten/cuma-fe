@@ -1,5 +1,7 @@
-const HeaderMenu = ({ title }: { title: string }) => {
-    return <div className="text-lg">{title}</div>;
+import Link from "next/link";
+
+const HeaderMenu = ({ title, href }: { title: string, href?: string }) => {
+    return <Link href={href ? (href) : "#"} className="text-lg">{title}</Link>;
 }
 
 const LoginButton = () => {
@@ -11,8 +13,8 @@ const Header = () => {
         <header className="bg-gray-800 text-white p-4 flex justify-between">
             {/* 메뉴 */}
             <div className="flex space-x-4">
-                <HeaderMenu title="홈" />
-                <HeaderMenu title="검색" />
+                <HeaderMenu title="홈" href="/" />
+                <HeaderMenu title="검색" href="/search" />
                 <HeaderMenu title="분석" />
                 <HeaderMenu title="고객센터" />
             </div>
