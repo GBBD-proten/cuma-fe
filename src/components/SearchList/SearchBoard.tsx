@@ -1,4 +1,3 @@
-import { useParams } from "next/navigation";
 import comminityData from "./data";
 import SearchCard from "./SearchCard";
 
