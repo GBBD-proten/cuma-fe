@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import SeparateLine from "../common/SeparateLine"
 import comminityData from "../SearchList/data"
 import { motion } from "motion/react"
@@ -7,9 +8,10 @@ import { motion } from "motion/react"
 type BoardProps = {
     title: string;
     commuity: string;
+    href: string;
 };
 
-const Board = ({ title, commuity }: BoardProps) => {
+const Board = ({ title, commuity, href }: BoardProps) => {
 
     const board = comminityData.filter((item) => item.community === commuity).slice(0, 10);
 
@@ -27,7 +29,7 @@ const Board = ({ title, commuity }: BoardProps) => {
             className="bg-slate-200 p-6 rounded-md shadow-md"
         >
             <header className="mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+                <Link className="text-2xl font-bold text-gray-800" href={href}>{title}</Link>
             </header>
             <SeparateLine />
             <table className="w-full border-collapse mt-4">
