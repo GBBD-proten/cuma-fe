@@ -1,6 +1,8 @@
 import Header from "@/components/common/Header";
+import MSWComponent from "@/components/common/MSWComponent";
+import TanstackQueryProvider from "@/components/common/TanstackQueryProvider";
+
 import "./globals.css";
-import { MSWComponent } from "@/components/MSWComponent";
 
 export default function RootLayout({
   children,
@@ -11,8 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <MSWComponent>
-          <Header />
-          {children}
+          <TanstackQueryProvider>
+            <Header />
+            {children}
+          </TanstackQueryProvider>
         </MSWComponent>
       </body>
     </html>

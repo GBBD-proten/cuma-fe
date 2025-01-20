@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export const MSWComponent = ({ children }: { children: React.ReactNode }) => {
+const MSWComponent = ({ children }: { children: React.ReactNode }) => {
     const [mswReady, setMswReady] = useState(false);
 
     console.log('MSWComponent rendered');
@@ -28,3 +28,5 @@ export const MSWComponent = ({ children }: { children: React.ReactNode }) => {
 
     return <>{children}</>;
 };
+
+export default MSWComponent;
