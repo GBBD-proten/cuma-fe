@@ -1,13 +1,51 @@
 import apiConfig from '@/config/config';
 import { http, HttpResponse } from 'msw';
+import { comminityData, posts } from '../data';
 
 export const postHandlers = [
-    // 포스트 목록 조회
-    http.get(`${apiConfig.API_URL}/user`, () => {
+    // 최신 포스트 목록 조회
+    http.get(`${apiConfig.API_URL}/recent`, () => {
+
+        const postList = posts.map((post) => {
+            return {
+                ...post,
+                subject: '(최신글) ' + post.subject,
+            }
+        })
+
         return HttpResponse.json({
-            id: 'c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d',
-            firstName: 'John',
-            lastName: 'Maverick',
+            data: postList,
+            message: 'success',
+            status: 200
+        })
+    }),
+
+    // 인기 포스트 목록 조회
+    http.get(`${apiConfig.API_URL}/trend`, () => {
+
+        const postList = posts.map((post) => {
+            return {
+                ...post,
+                subject: '(인기글) ' + post.subject,
+            }
+        })
+
+        return HttpResponse.json({
+            data: postList,
+            message: 'success',
+            status: 200
+        })
+    }),
+
+    // 포스트 목록 조회
+    http.get(`${apiConfig.API_URL}/posts`, () => {
+
+        const postList = comminityData;
+
+        return HttpResponse.json({
+            data: postList,
+            message: 'success',
+            status: 200
         })
     }),
 ]

@@ -1,19 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import SeparateLine from "../common/SeparateLine"
-import comminityData from "../SearchList/data"
 import { motion } from "motion/react"
+import { Board as BoardType } from "@/type/type";
 
 type BoardProps = {
     title: string;
-    commuity: string;
     href: string;
+    board: BoardType[];
 };
 
-const Board = ({ title, commuity, href }: BoardProps) => {
-
-    const board = comminityData.filter((item) => item.community === commuity).slice(0, 10);
+const Board = ({ title, href, board }: BoardProps) => {
 
     return (
         <motion.div
@@ -37,20 +33,20 @@ const Board = ({ title, commuity, href }: BoardProps) => {
                     <tr>
                         <th className="border-gray-300 px-4 py-2 text-left">제목</th>
                         <th className="border-gray-300 px-4 py-2">좋아요</th>
-                        <th className="border-gray-300 px-4 py-2">댓글</th>
+                        <th className="border-gray-300 px-4 py-2">조회수</th>
                     </tr>
                 </thead>
                 <tbody>
                     {board.map((item) => (
                         <tr
-                            key={item.id}
+                            key={item.url}
                             className="text-center hover:bg-gray-50 transition duration-200"
                         >
                             <td className="border-gray-300 px-4 py-2 text-left">
-                                {item.title}
+                                {item.subject}
                             </td>
-                            <td className="border-gray-300 px-4 py-2">{item.likes}</td>
-                            <td className="border-gray-300 px-4 py-2">{item.comments}</td>
+                            <td className="border-gray-300 px-4 py-2">{item.like}</td>
+                            <td className="border-gray-300 px-4 py-2">{item.view}</td>
                         </tr>
                     ))}
                 </tbody>
