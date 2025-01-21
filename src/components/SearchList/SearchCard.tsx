@@ -1,19 +1,13 @@
+import { Board } from "@/type/type";
+
 type SearchCardProps = {
-    items: SearchItem[],
+    items: Board[],
     community: string
 };
 
-type SearchItem = {
-    id: number,
-    title: string,
-    author: string,
-    content: string,
-    likes: number,
-    comments: number,
-    createdAt: string
-};
-
 const SearchCard = ({ items, community }: SearchCardProps) => {
+
+    console.log(items);
 
     return (
         <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow w-full">
@@ -27,25 +21,23 @@ const SearchCard = ({ items, community }: SearchCardProps) => {
                 <thead>
                     <tr className="bg-slate-100">
                         <th className="py-2 px-4 text-left">제목</th>
-                        <th className="py-2 px-4">작성자</th>
                         <th className="py-2 px-4">작성일</th>
                         <th className="py-2 px-4">좋아요</th>
-                        <th className="py-2 px-4">댓글</th>
+                        <th className="py-2 px-4">조회수</th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.map((item) => (
                         <tr
-                            key={item.id}
+                            key={item.url}
                             className="text-center hover:bg-gray-50"
                         >
                             <td className="py-2 px-4 text-left truncate max-w-xs">
-                                {item.title}
+                                {item.subject}
                             </td>
-                            <td className="py-2 px-4">{item.author}</td>
-                            <td className="py-2 px-4">{item.createdAt}</td>
-                            <td className="py-2 px-4">{item.likes}</td>
-                            <td className="py-2 px-4">{item.comments}</td>
+                            <td className="py-2 px-4">{item.date}</td>
+                            <td className="py-2 px-4">{item.like}</td>
+                            <td className="py-2 px-4">{item.view}</td>
                         </tr>
                     ))}
                 </tbody>

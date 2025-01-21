@@ -19,7 +19,7 @@ const SearchList = () => {
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-end mr-5"
                     onClick={handleToggle}>리스트/카드 전환</button>
             </div>
-            {isCard === "Card" ? <SearchCardList /> : <SearchBoard title="디시" />}
+            {isCard === "Card" ? <SearchCardList /> : <SearchBoard title="디시" category="posts" />}
         </>
     );
 };

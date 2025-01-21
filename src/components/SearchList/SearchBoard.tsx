@@ -1,12 +1,25 @@
-import comminityData from "./data";
+"use client";
+
+import { useFetchBoard } from "@/hooks/useBoard";
 import SearchCard from "./SearchCard";
+import { useMemo } from "react";
+import { Board } from "@/type/type";
 
 type SearchBoardProps = {
     title: string;
+    category: string;
 }
 
-const SearchBoard = ({ title }: SearchBoardProps) => {
-    const searchResults = comminityData.slice(0, 10);
+const SearchBoard = ({ title, category }: SearchBoardProps) => {
+
+    const { data, isSuccess } = useFetchBoard({ category });
+
+    const searchResults = useMemo<Board[]>(() => {
+        if (isSuccess) {
+            return data.slice(0, 20);
+        }
+        return [];
+    }, [data, isSuccess]);
 
     return (
         <div className="mx-4">
