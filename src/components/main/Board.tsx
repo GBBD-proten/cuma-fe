@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import SeparateLine from "../common/SeparateLine"
 import { motion } from "motion/react"
 import { Board as BoardType } from "@/type/type";
+import { useRouter } from "next/navigation";
 
 type BoardProps = {
     title: string;
@@ -10,6 +13,8 @@ type BoardProps = {
 };
 
 const Board = ({ title, href, board }: BoardProps) => {
+
+    const router = useRouter();
 
     return (
         <motion.div
@@ -41,6 +46,7 @@ const Board = ({ title, href, board }: BoardProps) => {
                         <tr
                             key={item.url}
                             className="text-center hover:bg-gray-50 transition duration-200"
+                            onClick={() => router.push(`${item.url}`)}
                         >
                             <td className="border-gray-300 px-4 py-2 text-left">
                                 {item.subject}
