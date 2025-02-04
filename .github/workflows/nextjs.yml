@@ -1,44 +1,58 @@
 name: Build and Deploy Docker Image
 
+# 메인 브랜치에 push가 발생하면 이 workflow가 실행됩니다.
+# 또한, 수동 실행 (workflow_dispatch) 도 지원합니다.
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
 
+# GitHub Actions 실행 시 기본적으로 코드 읽기 권한만 부여합니다.
 permissions:
   contents: read
 
 jobs:
   build:
+    # 이 job은 Ubuntu 최신 버전의 실행 환경에서 실행됩니다.
     runs-on: ubuntu-latest
+
     steps:
+      # 1. 코드 체크아웃 (현재 저장소의 코드를 가져옵니다.)
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Node.js 설정 (버전 20을 사용)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      # 3. 프로젝트 의존성 설치 (package-lock.json 기준으로 설치)
       - name: Install dependencies
         run: npm ci
 
+      # 4. Next.js 프로젝트 빌드 실행
       - name: Build Next.js project
         run: npm run build
 
+      # 5. Docker 이미지 생성
       - name: Create Docker image
         run: |
           docker build -t limecoding0/nextjs-app:latest .
+
+      # 6. Docker Hub 로그인 (보안 정보는 GitHub Secrets 사용)
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # 7. 생성한 Docker 이미지를 Docker Hub에 Push
       - name: Push Docker image to Docker Hub
         run: |
           docker push limecoding0/nextjs-app:latest
 
+      # 8. 원격 서버에 SSH로 접속하여 배포 수행
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.4
         with:
@@ -46,10 +60,18 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          timeout: 40s # 30초 기본
+          timeout: 40s # 기본 30초보다 조금 더 긴 40초로 설정
           script: |
             echo "서버 연결 성공"
+
+            # 최신 Docker 이미지 가져오기
             docker pull limecoding0/nextjs-app:latest
+            
+            # 기존 컨테이너가 실행 중이라면 중지
             docker stop nextjs-app || true
+            
+            # 기존 컨테이너 삭제 (없으면 무시)
             docker rm nextjs-app || true
+            
+            # 새로운 컨테이너 실행 (포트 3000으로 서비스 실행)
             docker run -d -p 3000:3000 --name nextjs-app limecoding0/nextjs-app:latest
