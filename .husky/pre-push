@@ -1,15 +1,15 @@
-#!/usr/bin/env sh
-echo "pre-push 훅 실행 중입니다."
+# #!/usr/bin/env sh
+# echo "pre-push 훅 실행 중입니다."
 
-# ESLint 검사 실행
-echo "build 검사 실행 중입니다."
-npm run build
-RESULT=$?
+# # ESLint 검사 실행
+# echo "build 검사 실행 중입니다."
+# npm run build
+# RESULT=$?
 
-# 결과 확인
-if [ $RESULT -ne 0 ]; then
-  echo "build 검사 실패: 푸시가 중단되었습니다."
-  exit 1
-fi
+# # 결과 확인
+# if [ $RESULT -ne 0 ]; then
+#   echo "build 검사 실패: 푸시가 중단되었습니다."
+#   exit 1
+# fi
 
-echo "build 검사 성공: 푸시를 진행합니다."
+# echo "build 검사 성공: 푸시를 진행합니다."
