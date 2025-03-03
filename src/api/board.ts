@@ -6,6 +6,7 @@ type FetchBoard = {
 }
 
 const fetchBoard = async ({ category }: FetchBoard): Promise<Board[]> => {
+
     const response = await fetch(`${apiConfig.API_URL}/${category}`);
 
     if (!response.ok) {
