@@ -1,7 +1,7 @@
 import { Board } from "@/type/type";
 
 type SearchCardProps = {
-    items: Board[],
+    items: Board[] | null,
     community: string
 };
 
@@ -27,7 +27,7 @@ const SearchCard = ({ items, community }: SearchCardProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((item) => (
+                    {items?.map((item) => (
                         <tr
                             key={item.url}
                             className="text-center hover:bg-gray-50"

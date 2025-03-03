@@ -1,12 +1,14 @@
 "use client";
 
+import { useCummunityList } from '@/hooks/useSearchHooks';
 import { Button } from '@headlessui/react';
+import { produce } from 'immer';
+import { useEffect, useState } from 'react';
 import FillButton from '../common/FillButton';
 import SearchInput from '../common/Search';
 import SelectBox from '../common/SelectBox';
 import BaseModal from './BaseModal';
-import { useState } from 'react';
-import { produce } from 'immer';
+import { useRouter } from 'next/navigation';
 
 type BaseModalProps = {
     isOpen: boolean;
@@ -15,18 +17,34 @@ type BaseModalProps = {
 };
 
 type SiteSelect = {
+    siteId: string;
     siteName: string;
     select: boolean;
 }
 
-const siteList = ["디시", "뽐뿌", "클래시", "카메라 갤러리", " 클리앙", "보배드림", "인벤", "루리웹"];
-
 const SearchDetailModal = ({ isOpen, children, closeModal }: BaseModalProps) => {
 
     const [searchInput, setSearchInput] = useState<string>('');
-    const [siteSelect, setSiteSelect] = useState<SiteSelect[]>(siteList.map((site) => ({ siteName: site, select: false })));
-    const [periodSelect, setPeriodSelect] = useState<string>('1일');
-    const [searchRange, setSearchRange] = useState<string>('제목');
+    const { data: siteListData } = useCummunityList();
+    const [siteSelect, setSiteSelect] = useState<SiteSelect[]>([]);
+    // const [periodSelect, setPeriodSelect] = useState<string>('1일');
+    // const [searchRange, setSearchRange] = useState<string>('제목');
+    const router = useRouter();
+
+    // 검색할 사이트 설정
+    useEffect(
+        () => {
+            if (siteListData) {
+
+                const newSiteSelect = siteListData.map((site) => ({
+                    siteId: site.siteId,
+                    siteName: site.siteName,
+                    select: false
+                }));
+
+                setSiteSelect(newSiteSelect);
+            }
+        }, [siteListData]);
 
     // 사이트 선택 핸들러
     const handleSiteSelect = (selectedSite: string) => {
@@ -41,7 +59,17 @@ const SearchDetailModal = ({ isOpen, children, closeModal }: BaseModalProps) => 
         setSiteSelect(newSiteSelect);
     }
 
-    console.log(siteSelect, searchInput, periodSelect, searchRange);
+    const onHandleSearch = () => {
+
+        const params = new URLSearchParams({
+            query: searchInput,
+            siteId: siteSelect.filter(site => site.select).map(site => site.siteId).join(','),
+            size: "10",
+            page: "1",
+        })
+
+        router.push(`/search?${params}`);
+    }
 
     return (
         <>
@@ -70,7 +98,9 @@ const SearchDetailModal = ({ isOpen, children, closeModal }: BaseModalProps) => 
                 <div className='grid grid-cols-2'>
                     <span>
                         <span className='mr-3'>기간 선택</span>
-                        <SelectBox onChange={(e) => setPeriodSelect(e.target.value)}>
+                        <SelectBox
+                        // onChange={(e) => setPeriodSelect(e.target.value)}
+                        >
                             <option>1일</option>
                             <option>1주</option>
                             <option>1개월</option>
@@ -81,7 +111,9 @@ const SearchDetailModal = ({ isOpen, children, closeModal }: BaseModalProps) => 
                     </span>
                     <span>
                         <span className='mr-3'>검색 범위</span>
-                        <SelectBox onChange={(e) => setSearchRange(e.target.value)}>
+                        <SelectBox
+                        // onChange={(e) => setSearchRange(e.target.value)}
+                        >
                             <option>제목</option>
                             <option>본문</option>
                             <option>제목+본문</option>
@@ -90,7 +122,9 @@ const SearchDetailModal = ({ isOpen, children, closeModal }: BaseModalProps) => 
 
                 </div>
                 <div className='flex justify-end mt-10'>
-                    <Button className="text-lg rounded-md bg-slate-800 text-white w-28 py-2 ml-4 my-4 text-center leading-[24px]">
+                    <Button className="text-lg rounded-md bg-slate-800 text-white w-28 py-2 ml-4 my-4 text-center leading-[24px]"
+                        onClick={onHandleSearch}
+                    >
                         검색
                     </Button>
                     <Button

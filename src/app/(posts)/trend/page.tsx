@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <article>
       <SearchBar />
-      <SearchBoard title="인기글" category="trend" />
+      <SearchBoard title="인기글" searchList={null} />
     </article>
   );
 }
