@@ -1,8 +1,18 @@
+let isMswInitailized = false;
+
 export async function initMsw() {
+
+    if (isMswInitailized) {
+        return;
+    }
+
+    isMswInitailized = true;
+
     if (typeof window === 'undefined') {
         const { server } = await import('@/mocks/server');
         server.listen();
         console.log('[MSW] 서버 시작');
+
         // server.events.on("request:start", (req) => {
         //     console.log(`[MSW] 요청: ${req.request.method} ${req.request.url}`);
         // });

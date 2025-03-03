@@ -1,6 +1,6 @@
 import apiConfig from '@/config/config';
 import { http, HttpResponse } from 'msw';
-import { comminityData, posts } from '../data';
+import { comminityData, posts } from '../../data';
 
 export const postHandlers = [
     // 최신 포스트 목록 조회
